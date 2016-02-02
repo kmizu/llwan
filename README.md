@@ -1,2 +1,2 @@
 # llwan
-A LL(1) Parser Generator
+A LL(1) Parser Generator written in Scala
