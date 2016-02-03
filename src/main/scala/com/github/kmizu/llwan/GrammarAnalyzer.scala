@@ -4,7 +4,7 @@ package com.github.kmizu.llwan
   * Created by Mizushima on 2016/02/03.
   */
 object GrammarAnalyzer {
-  def calculateFirstSet(grammar: Ast.Grammar, mapping: Map[Symbol, Ast.Exp]) = {
+  def calculateFirstSet(grammar: Ast.Grammar, mapping: Map[Symbol, Ast.Exp]): Map[Symbol, Set[String]] = {
     def first(e: Ast.Exp, visit: Set[Symbol]): Set[String] = e match {
       case Ast.Seq(_, l, r) =>
         val firstOfL = first(l, visit)
@@ -22,7 +22,7 @@ object GrammarAnalyzer {
       case Ast.Str(_, c) =>
         Set(c)
     }
-    ???
+    mapping.map { case (symbol, exp) => symbol -> first(mapping(symbol), Set(symbol)) }
   }
   def calculateFollowSet(grammar: Ast.Grammar) = ???
   def calculateDirectorSet(grammar: Ast.Grammar) = ???
