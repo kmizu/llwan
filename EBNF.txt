@@ -1,0 +1,9 @@
+E := A
+A := M ('+' M | '-' M)*
+M := P ('*' P | '/' P)
+P := '(' E ')' | I
+
+FIRST(M) = {'(', I}
+FOLLOW(M such that A := M) = {'+', '-'}
+FOLLOW(P such that M := P) = {'*', '/'}
+FOLLOW('(' E ')') = {'+', '-', '*', '/'}
