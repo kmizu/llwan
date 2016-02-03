@@ -4,11 +4,12 @@ package com.github.kmizu.llwan
   * Created by Mizushima on 2016/02/03.
   */
 object GrammarAnalyzer {
-  def calculateFirstSet(grammar: Ast.Grammar, mapping: Map[Symbol, Ast.Exp]): Map[Symbol, Set[String]] = {
+  type FirstSetTable = Map[Symbol, Set[String]]
+  def calculateFirstSet(grammar: Ast.Grammar, mapping: Map[Symbol, Ast.Exp]): FirstSetTable = {
     def first(e: Ast.Exp, visit: Set[Symbol]): Set[String] = e match {
       case Ast.Seq(_, l, r) =>
         val firstOfL = first(l, visit)
-        if(firstOfL.contains("")) first(r, visit) else firstOfL
+        firstOfL ++ (if(firstOfL.contains("")) first(r, visit) else Set())
       case Ast.Alt(_, l, r) =>
         first(l, visit) ++ first(r, visit)
       case Ast.Ident(_, name) =>
