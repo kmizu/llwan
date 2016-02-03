@@ -27,7 +27,7 @@ scalacOptions <++= scalaVersion map { v =>
 
 
 libraryDependencies ++= Seq(
-  "com.lihaoyi" %% "fastparse" % "0.3.4",
+  "org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.4",
   "org.scalactic" %% "scalactic" % "2.2.6",
   "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 )
