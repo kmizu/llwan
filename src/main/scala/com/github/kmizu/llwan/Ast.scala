@@ -25,13 +25,16 @@ object Ast {
     * @param rules the list of rules constituting PEG grammar */
   case class Grammar(pos: Pos, rules: List[Rule]) extends HasPosition {
     def +(newRule: Rule): Grammar = Grammar(pos, rules = newRule::rules)
+    override def hashCode: Int = super.hashCode
   }
 
   /** This class represents an AST of rule in PEG grammar.
     * @param pos position in source file
     * @param name the name of this rule.  It is referred in body
     * @param body the parsing expression which this rule represents */
-  case class Rule(pos: Pos, name: Symbol, body: Exp) extends HasPosition
+  case class Rule(pos: Pos, name: Symbol, body: Exp) extends HasPosition {
+    override def hashCode: Int = super.hashCode
+  }
 
   /** This trait represents common super-type of parsing expression AST. */
   sealed trait Exp extends HasPosition
@@ -40,37 +43,51 @@ object Ast {
     * @param pos position in source file
     * @param lhs e1
     * @param rhs e2 */
-  case class Seq(pos: Pos, lhs: Exp, rhs: Exp) extends Exp
+  case class Seq(pos: Pos, lhs: Exp, rhs: Exp) extends Exp {
+    override def hashCode: Int = super.hashCode
+  }
 
   /** This class represents an AST of ordered choice (e1 / e2).
     * @param pos position in source file
     * @param lhs e1
     * @param rhs e2 */
-  case class Alt(pos: Pos, lhs: Exp, rhs: Exp) extends Exp
+  case class Alt(pos: Pos, lhs: Exp, rhs: Exp) extends Exp {
+    override def hashCode: Int = super.hashCode
+  }
 
   /** This class represents an AST of repetition e*.
     * @param pos position in source file
     * @param body e */
-  case class Rep0(pos: Pos, body: Exp) extends Exp
+  case class Rep0(pos: Pos, body: Exp) extends Exp {
+    override def hashCode: Int = super.hashCode
+  }
 
   /** This class represents an AST of one-or-more repetition e+.
     * @param pos position in source file
     * @param body e */
-  case class Rep1(pos: Pos, body: Exp) extends Exp
+  case class Rep1(pos: Pos, body: Exp) extends Exp {
+    override def hashCode: Int = super.hashCode
+  }
 
   /** This class represents an AST of zero-or-one occurrence e?.
     * @param pos position in source file
     * @param body e */
-  case class Opt(pos: Pos, body: Exp) extends Exp
+  case class Opt(pos: Pos, body: Exp) extends Exp {
+    override def hashCode: Int = super.hashCode
+  }
 
   /** This class represents an AST of string literal "...".
     * @param pos position in source file
     * @param target literal */
-  case class Str(pos: Pos, target: String) extends Exp
+  case class Str(pos: Pos, target: String) extends Exp {
+    override def hashCode: Int = super.hashCode
+  }
 
   /** This class represents an AST of identifier.
     * An identifier is used as reference of nonterminal.
     * @param pos position in source file
     * @param name the name of identifier */
-  case class Ident(pos: Pos, name: Symbol) extends Exp
+  case class Ident(pos: Pos, name: Symbol) extends Exp {
+    override def hashCode: Int = super.hashCode
+  }
 }
