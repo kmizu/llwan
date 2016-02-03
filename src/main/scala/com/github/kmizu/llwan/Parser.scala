@@ -50,11 +50,7 @@ object Parser {
     lazy val Sequence: Parser[Exp] = Prefix.+ ^^ {ns =>
       val x :: xs = ns; xs.foldLeft(x){(a, y) => Seq(y.pos, a, y)}
     }
-    lazy val Prefix: Parser[Exp] = (
-      (loc <~ AND) ~ Suffix ^^ { case pos ~ e => AndPred(Pos(pos.line, pos.column), e) }
-        | (loc <~ NOT) ~ Suffix ^^ { case pos ~ e => NotPred(Pos(pos.line, pos.column), e) }
-        | Suffix
-      )
+    lazy val Prefix: Parser[Exp] = Suffix
     lazy val Suffix: Parser[Exp] = (
       loc ~ Primary <~ QUESTION ^^ { case pos ~ e => Opt(Pos(pos.line, pos.column), e) }
         | loc ~ Primary <~ STAR ^^ { case pos ~ e => Rep0(Pos(pos.line, pos.column), e) }

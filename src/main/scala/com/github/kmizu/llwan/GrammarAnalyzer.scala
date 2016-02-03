@@ -1,10 +1,13 @@
 package com.github.kmizu.llwan
 
+import Ast._
 /**
   * Created by Mizushima on 2016/02/03.
   */
 object GrammarAnalyzer {
-  def calculateFirstSet(grammar: Ast.Grammar) = ???
-  def calculateFollowSet(grammar: Ast.Grammar) = ???
-  def calculateDirectorSet(grammar: Ast.Grammar) = ???
+  def calculateFirstSet(grammar: Grammar) = {
+    def first(e: Ast.Exp): Set[String] = ???
+  }
+  def calculateFollowSet(grammar: Grammar) = ???
+  def calculateDirectorSet(grammar: Grammar) = ???
 }

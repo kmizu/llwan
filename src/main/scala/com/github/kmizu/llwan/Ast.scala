@@ -63,16 +63,6 @@ object Ast {
     * @param body e */
   case class Opt(pos: Pos, body: Exp) extends Exp
 
-  /** This class represents an AST of and-predicate &(e).
-    * @param pos position in source file
-    * @param body e */
-  case class AndPred(pos: Pos, body: Exp) extends Exp
-
-  /** This class represents an AST of not-predicate !(e).
-    * @param pos position in source file
-    * @param body e */
-  case class NotPred(pos: Pos, body: Exp) extends Exp
-
   /** This class represents an AST of string literal "...".
     * @param pos position in source file
     * @param target literal */
