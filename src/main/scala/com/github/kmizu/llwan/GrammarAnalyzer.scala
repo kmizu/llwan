@@ -5,20 +5,20 @@ package com.github.kmizu.llwan
   */
 object GrammarAnalyzer {
   def calculateFirstSet(grammar: Ast.Grammar, mapping: Map[Symbol, Ast.Exp]) = {
-    def first(e: Ast.Exp): Set[String] = e match {
+    def first(e: Ast.Exp, visit: Set[Symbol]): Set[String] = e match {
       case Ast.Seq(_, l, r) =>
-        val firstOfL = first(l)
-        if(firstOfL.contains("")) first(r) else firstOfL
+        val firstOfL = first(l, visit)
+        if(firstOfL.contains("")) first(r, visit) else firstOfL
       case Ast.Alt(_, l, r) =>
-        first(l) ++ first(r)
+        first(l, visit) ++ first(r, visit)
       case Ast.Ident(_, name) =>
-        first(mapping(name))
+        first(mapping(name), visit + name)
       case Ast.Opt(_, e) =>
-        first(e) + ""
+        first(e, visit) + ""
       case Ast.Rep0(_, e) =>
-        first(e) + ""
+        first(e, visit) + ""
       case Ast.Rep1(_, e) =>
-        first(e) + ""
+        first(e, visit) + ""
       case Ast.Str(_, c) =>
         Set(c)
     }
