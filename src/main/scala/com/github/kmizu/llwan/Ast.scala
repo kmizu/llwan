@@ -68,15 +68,6 @@ object Ast {
     * @param target literal */
   case class Str(pos: Pos, target: String) extends Exp
 
-  /** This class represents an AST of wild-card character ..
-    * @param pos position in source file */
-  case class Wildcard(pos: Pos) extends Exp
-
-  /** This class represents an AST of rule calls.
-    * @param pos position in source file
-    * @param name the name of identifier */
-  case class Call(pos: Pos, name: Symbol, args: List[Exp]) extends Exp
-
   /** This class represents an AST of identifier.
     * An identifier is used as reference of nonterminal.
     * @param pos position in source file

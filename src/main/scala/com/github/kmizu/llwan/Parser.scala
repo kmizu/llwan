@@ -58,13 +58,11 @@ object Parser {
         | Primary
       )
     lazy val Primary: Parser[Exp] = (
-      Identifier ~ (LPAREN ~> repsep(Expression, COMMA) <~ RPAREN) ^^ { case name ~ params => Call(Pos(name.pos.line, name.pos.column), name.name, params) }
-        | Identifier
-        | OPEN ~> Expression <~ CLOSE
-        | loc <~ DOT ^^ { case pos => Wildcard(Pos(pos.line, pos.column)) }
-        | loc <~ chr('_') ^^ { case pos => Str(Pos(pos.line, pos.column), "") }
-        | Literal
-      )
+      Identifier
+    | OPEN ~> Expression <~ CLOSE
+    | loc <~ chr('_') ^^ { case pos => Str(Pos(pos.line, pos.column), "") }
+    | Literal
+    )
     lazy val loc: Parser[Position] = Parser{reader => Success(reader.pos, reader)}
     lazy val Identifier: Parser[Ident] = loc ~ IdentStart ~ IdentCont.* <~Spacing ^^ {
       case pos ~ s ~ c => Ident(Pos(pos.line, pos.column), Symbol("" + s + c.foldLeft("")(_ + _)))
