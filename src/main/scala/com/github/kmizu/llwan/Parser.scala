@@ -14,7 +14,7 @@ import Ast._
   * @author Kota Mizushima
   *
   */
-object HOPEGParser {
+object Parser {
 
   /**
     * This exception is thrown in the case of a parsing failure
