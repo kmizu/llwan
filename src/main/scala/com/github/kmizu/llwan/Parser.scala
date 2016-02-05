@@ -47,14 +47,11 @@ object Parser {
     lazy val Expression: Parser[Exp] = rep1sep(Sequence, BAR) ^^ {ns =>
       val x :: xs = ns; xs.foldLeft(x){(a, y) => Alt(y.pos, a, y)}
     }
-    lazy val Sequence: Parser[Exp] = Prefix.+ ^^ {ns =>
+    lazy val Sequence: Parser[Exp] = Primary.+ ^^ {ns =>
       val x :: xs = ns; xs.foldLeft(x){(a, y) => Seq(y.pos, a, y)}
     }
-    lazy val Prefix: Parser[Exp] = Suffix
-    lazy val Suffix: Parser[Exp] = Primary
     lazy val Primary: Parser[Exp] = (
       Identifier
-    | OPEN ~> Expression <~ CLOSE
     | loc <~ chr('_') ^^ { case pos => Str(Pos(pos.line, pos.column), "") }
     | loc <~ EPS ^^ { case pos => Emp(Pos(pos.line, pos.column)) }
     | Literal
