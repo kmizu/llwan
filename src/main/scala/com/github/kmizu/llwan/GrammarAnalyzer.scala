@@ -8,7 +8,13 @@ object GrammarAnalyzer {
   def calculateFirstSet(grammar: Ast.Grammar, mapping: Map[Ast.Ident, Ast.Exp]): FirstSetTable = {
     def first(e: Ast.Exp, visit: Set[Symbol]): Set[String] = e match {
       case Ast.Choices(_, choices) =>
-        ???
+        def firsts(seq: List[Ast.Prm]): Set[String] = seq match {
+          case hd::tl =>
+            val result = first(hd, visit)
+            result ++ (if(result.contains("")) firsts(tl) else Set[String]())
+          case Nil => Set[String]()
+        }
+        choices.foldLeft(Set[String]()){(set, choice) => set ++ firsts(choice)}
       case ident@Ast.Ident(_, name) =>
         if(visit.contains(name)) Set() else first(mapping(ident), visit + name)
       case Ast.Str(_, c) =>
