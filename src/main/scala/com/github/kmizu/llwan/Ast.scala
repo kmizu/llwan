@@ -55,27 +55,6 @@ object Ast {
     override def hashCode: Int = super.hashCode
   }
 
-  /** This class represents an AST of repetition e*.
-    * @param pos position in source file
-    * @param body e */
-  case class Rep0(pos: Pos, body: Exp) extends Exp {
-    override def hashCode: Int = super.hashCode
-  }
-
-  /** This class represents an AST of one-or-more repetition e+.
-    * @param pos position in source file
-    * @param body e */
-  case class Rep1(pos: Pos, body: Exp) extends Exp {
-    override def hashCode: Int = super.hashCode
-  }
-
-  /** This class represents an AST of zero-or-one occurrence e?.
-    * @param pos position in source file
-    * @param body e */
-  case class Opt(pos: Pos, body: Exp) extends Exp {
-    override def hashCode: Int = super.hashCode
-  }
-
   /** This class represents an AST of string literal "...".
     * @param pos position in source file
     * @param target literal */

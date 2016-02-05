@@ -14,12 +14,6 @@ object GrammarAnalyzer {
         first(l, visit) ++ first(r, visit)
       case ident@Ast.Ident(_, name) =>
         first(mapping(ident), visit + name)
-      case Ast.Opt(_, e) =>
-        first(e, visit) + ""
-      case Ast.Rep0(_, e) =>
-        first(e, visit) + ""
-      case Ast.Rep1(_, e) =>
-        first(e, visit) + ""
       case Ast.Str(_, c) =>
         Set(c)
     }
