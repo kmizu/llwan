@@ -7,7 +7,7 @@ object GrammarAnalyzer {
   type FirstSetTable = Map[Ast.Exp, Set[String]]
   def calculateFirstSet(grammar: Ast.Grammar, mapping: Map[Ast.Ident, Ast.Exp]): FirstSetTable = {
     def first(e: Ast.Exp, visit: Set[Symbol]): Set[String] = e match {
-      case Ast.Alt(_, choices) =>
+      case Ast.Choices(_, choices) =>
         ???
       case ident@Ast.Ident(_, name) =>
         if(visit.contains(name)) Set() else first(mapping(ident), visit + name)

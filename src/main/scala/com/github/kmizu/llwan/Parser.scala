@@ -42,9 +42,9 @@ object Parser {
       case name ~ body =>
         Rule(name.pos, name.name, body)
     }
-    lazy val Expression: Parser[Exp] = rep1sep(Sequence, BAR) ^^ {ns => Alt(ns.head.head.pos, ns) }
-    lazy val Sequence: Parser[List[Exp]] = Primary.+
-    lazy val Primary: Parser[Exp] = (
+    lazy val Expression: Parser[Choices] = rep1sep(Sequence, BAR) ^^ { ns => Choices(ns.head.head.pos, ns) }
+    lazy val Sequence: Parser[List[Prm]] = Primary.+
+    lazy val Primary: Parser[Prm] = (
       Identifier
     | loc <~ chr('_') ^^ { case pos => Str(Pos(pos.line, pos.column), "") }
     | loc <~ EPS ^^ { case pos => Emp(Pos(pos.line, pos.column)) }
