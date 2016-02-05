@@ -51,16 +51,12 @@ object Parser {
       val x :: xs = ns; xs.foldLeft(x){(a, y) => Seq(y.pos, a, y)}
     }
     lazy val Prefix: Parser[Exp] = Suffix
-    lazy val Suffix: Parser[Exp] = (
-      loc ~ Primary <~ QUESTION ^^ { case pos ~ e => Opt(Pos(pos.line, pos.column), e) }
-        | loc ~ Primary <~ STAR ^^ { case pos ~ e => Rep0(Pos(pos.line, pos.column), e) }
-        | loc ~ Primary <~ PLUS ^^ { case pos ~ e => Rep1(Pos(pos.line, pos.column), e) }
-        | Primary
-      )
+    lazy val Suffix: Parser[Exp] = Primary
     lazy val Primary: Parser[Exp] = (
       Identifier
     | OPEN ~> Expression <~ CLOSE
     | loc <~ chr('_') ^^ { case pos => Str(Pos(pos.line, pos.column), "") }
+    | loc <~ EPS ^^ { case pos => Emp(Pos(pos.line, pos.column)) }
     | Literal
     )
     lazy val loc: Parser[Position] = Parser{reader => Success(reader.pos, reader)}
@@ -109,6 +105,7 @@ object Parser {
     lazy val DOT = chr('.') <~ Spacing
     lazy val ARROW = chr('-') <~ chr('>') <~ Spacing
     lazy val Spacing = (Space | Comment).*
+    lazy val EPS = chr('e') <~ chr('p') <~ chr('s') <~ Spacing
     lazy val Comment = (
       chr('/') ~ chr('/') ~ (not(EndOfLine) ~ any).* ~ EndOfLine
       )

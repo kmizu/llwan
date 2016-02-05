@@ -16,6 +16,8 @@ object GrammarAnalyzer {
         first(mapping(ident), visit + name)
       case Ast.Str(_, c) =>
         Set(c)
+      case Ast.Emp(_) =>
+        Set("")
     }
     (mapping.map { case (ident, exp) => (ident) -> first(mapping(ident), Set(ident.name)) }: FirstSetTable)
   }

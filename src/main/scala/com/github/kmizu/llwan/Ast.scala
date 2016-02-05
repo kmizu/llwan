@@ -62,6 +62,12 @@ object Ast {
     override def hashCode: Int = super.hashCode
   }
 
+  /** This class represents an AST of epsilon value
+    * @param pos position in source file */
+  case class Emp(pos: Pos) extends Exp {
+    override def hashCode: Int = super.hashCode
+  }
+
   /** This class represents an AST of identifier.
     * An identifier is used as reference of nonterminal.
     * @param pos position in source file
