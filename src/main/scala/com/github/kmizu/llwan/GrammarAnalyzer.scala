@@ -13,7 +13,7 @@ object GrammarAnalyzer {
       case Ast.Alt(_, l, r) =>
         first(l, visit) ++ first(r, visit)
       case ident@Ast.Ident(_, name) =>
-        first(mapping(ident), visit + name)
+        if(visit.contains(name)) Set() else first(mapping(ident), visit + name)
       case Ast.Str(_, c) =>
         Set(c)
       case Ast.Emp(_) =>
