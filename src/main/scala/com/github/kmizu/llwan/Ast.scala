@@ -39,19 +39,10 @@ object Ast {
   /** This trait represents common super-type of parsing expression AST. */
   sealed trait Exp extends HasPosition
 
-  /** This class represents an AST of sequence (e1 e2).
+  /** This class represents an AST of choice (e1 | e2 | ... | en).
     * @param pos position in source file
-    * @param lhs e1
-    * @param rhs e2 */
-  case class Seq(pos: Pos, lhs: Exp, rhs: Exp) extends Exp {
-    override def hashCode: Int = super.hashCode
-  }
-
-  /** This class represents an AST of ordered choice (e1 / e2).
-    * @param pos position in source file
-    * @param lhs e1
-    * @param rhs e2 */
-  case class Alt(pos: Pos, lhs: Exp, rhs: Exp) extends Exp {
+    * @param body List(e1,e2,...,en) */
+  case class Alt(pos: Pos, body: List[List[Exp]]) extends Exp {
     override def hashCode: Int = super.hashCode
   }
 

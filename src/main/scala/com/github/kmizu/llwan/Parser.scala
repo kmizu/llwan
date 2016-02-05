@@ -38,18 +38,12 @@ object Parser {
     lazy val GRAMMAR: Parser[Grammar] = (loc <~ Spacing) ~ Definition.* <~ EndOfFile ^^ {
       case pos ~ rules => Grammar(Pos(pos.line, pos.column), rules)
     }
-
     lazy val Definition: Parser[Rule] = (Identifier  <~ EQ) ~ (Expression <~ SEMI_COLON) ^^ {
       case name ~ body =>
         Rule(name.pos, name.name, body)
     }
-
-    lazy val Expression: Parser[Exp] = rep1sep(Sequence, BAR) ^^ {ns =>
-      val x :: xs = ns; xs.foldLeft(x){(a, y) => Alt(y.pos, a, y)}
-    }
-    lazy val Sequence: Parser[Exp] = Primary.+ ^^ {ns =>
-      val x :: xs = ns; xs.foldLeft(x){(a, y) => Seq(y.pos, a, y)}
-    }
+    lazy val Expression: Parser[Exp] = rep1sep(Sequence, BAR) ^^ {ns => Alt(ns.head.head.pos, ns) }
+    lazy val Sequence: Parser[List[Exp]] = Primary.+
     lazy val Primary: Parser[Exp] = (
       Identifier
     | loc <~ chr('_') ^^ { case pos => Str(Pos(pos.line, pos.column), "") }
