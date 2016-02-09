@@ -12,10 +12,10 @@ class GrammarAnalyzer(grammar: Ast.Grammar) {
         def firsts(seq: List[Ast.Prm]): Set[String] = seq match {
           case hd::tl =>
             val result = first(hd, visit)
-            result ++ (if(result.contains("")) firsts(tl) else Set[String]())
-          case Nil => Set[String]()
+            result ++ (if(result.contains("")) firsts(tl) else Set.empty[String])
+          case Nil => Set.empty[String]
         }
-        choices.foldLeft(Set[String]()){(set, choice) => set ++ firsts(choice)}
+        choices.foldLeft(Set.empty[String]){(set, choice) => set ++ firsts(choice)}
       case ident@Ast.Ident(_, name) =>
         if(visit.contains(name)) Set() else first(mapping(name), visit + name)
       case Ast.Str(_, c) =>
@@ -25,6 +25,7 @@ class GrammarAnalyzer(grammar: Ast.Grammar) {
     }
     (mapping.map { case (ident, exp) => (ident) -> first(mapping(ident), Set(ident)) }: FirstSetTable)
   }
+
   def calculateFollowSet(grammar: Ast.Grammar) = ???
   def calculateDirectorSet(grammar: Ast.Grammar) = ???
 }
